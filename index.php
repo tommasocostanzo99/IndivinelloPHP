@@ -1,66 +1,83 @@
+<!DOCTYPE html>
+<?php
+  if(isset($_POST["confButton"]))
+  {
+    $nome = test_input($_POST["nome"]);
+    $email = test_input($_POST["email"]);
+    $cognome = test_input($_POST["cognome"]);
+    $password = test_input($_POST["password"]);
+    $nazionalita = test_input($_POST["nazionalita"]);
+    $sesso = test_input($_POST["sesso"]);
+    $patente = test_input($_POST["patenteA"]) . test_input($_POST["patenteB"]);
+  }
+
+  function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+  }
+?>
 <html>
   <head>
     <script>
-      function confermaModulo(){
-        for(int i=0;i<document.getElementsByName("formRegistrazione").length; i++){
-            if(document.getElementsByName("formRegistrazione")[i].value==null){
+    function ConfermaModulo(){
+        for(var i=0; i<document.getElementsByClassName("formRegistrazione").length; i++){
+            if(document.getElementsByClassName("formRegistrazione")[i].value==""){               
                alert("non hai inserito tutti i campi");
-               return;
+              return;
+            }
+            else 
+               document.getElementsByName("riepilogoTextForm")[i].innerHTML =document.getElementsByClassName("formRegistrazione")[i].value;
+                                                                          
         }
         if(document.getElementsByName("sesso")[0].checked==false && document.getElementsByName("sesso")[1].checked==false){
-            alert("non hai inserito tutti i campi");
+             alert("non hai inserito tutti i campi");
+             return;
         }
-        /*if(document.getElementsByName("nome")[0].value==null){
-           alert("non hai inserito tutti i campi");
-            
+        else if(document.getElementsByName("sesso")[0].checked==true){
+                  document.getElementsByName("riepilogoRadioForm")[0].innerHTML="maschio";
         }
-        else if(document.getElementsByName("cognome")[0].value==null){
-           alert("non hai inserito tutti i campi");
-           
+        else if(document.getElementsByName("sesso")[1].checked==true){
+                  document.getElementsByName("riepilogoRadioForm")[0].innerHTML="femmina";
         }
-        else 
+        if(document.getElementsByName("patente")[0].checked==true){
+                  document.getElementsByName("riepilogoCheckboxForm")[0].innerHTML="cat.a ";
         }
-        else if(document.getElementsByName("email")[0].value==null){
-            alert("non hai inserito tutti i campi");
+        if(document.getElementsByName("patente")[1].checked==true){
+                  document.getElementsByName("riepilogoCheckboxForm")[0].innerHTML+="cat.b";
         }
-        else if(document.getElementsByName("password")[0].value==null){
-            alert("non hai inserito tutti i campi");
-        }*/
-        else{
-            document.getElementById("formRegistrazione").style.display="none";
-            document.getElementById("confermaModulo").style.display="block";
-            document.getElementsByName("riepilogo")[0].innerHt
-            
-            
-        }
-      }
-    
+        document.getElementById("formRegistrazione").style.display="none";
+        document.getElementById("confermaModulo").style.display="block";
+    }
     </script>
   </head>
   <body>
-    <form id="formRegistrazione">
-        <p>Nome: </p><input type="text" name="formRegistrazione">
-        <p>Cognome: </p><input type="text" name="formRegistrazione">
-        <p>Sesso: </p><input type="radio" name="sesso" value="Maschio">Maschio <input type="radio" name="sesso" value="Femmina"> Femmina
+    <form action="" method="post">
+      <div id="formRegistrazione">
+        <p>Nome: </p><input type="text" class="formRegistrazione" name="nome">
+        <p>Cognome: </p><input type="text" class="formRegistrazione" name="cognome">
+        <p>Sesso: </p><input type="radio" name="sesso" value="M">Maschio <input type="radio" name="sesso" value="F"> Femmina
         <p>Nazionalit&agrave:</p>  
-        <select id="nazionalita" name="formRegistrazione">
+        <select id="nazionalita" class="formRegistrazione" name="nazionalita">
           <option value="italiana">Italiana</option>
           <option value="tedesca">Tedesca</option>
           <option value="francese">Francese</option>
         </select>
-        <p>Patente: </p><input type="checkbox" name="patente" value="a">Cat. a <input type="checkbox" name="patente" value="b"> Cat. b<br>
-       <p>Email: </p><input type="text" name="formRegistrazione">
-      <p>Password: </p><input type="password" name="formRegistrazione">
-      <input type="button" name="conferma" onclick="confermaModulo()" value="Conferma">
-
-    </form>
-    <div id="confermaModulo" style="display:none;" >
-        <p name="riepilogo">Nome: </p>
-        <p name="riepilogo">Cognome: </p>
-        <p name="riepilogo">Sesso: </p>
-        <p name="riepilogo">Nazionalit&agrave: </p>
-        <p name="riepilogo">Patente: </p>
-        <p name="riepilogo">Email: </p>
+        <p>Patente: </p><input type="checkbox" class="patente" name="patenteA" value="A">Cat. a <input type="checkbox" class="patente" name="patenteB" value="B"> Cat. b<br>
+        <p>Email: </p><input type="text" class="formRegistrazione" name="email">
+        <p>Password: </p><input type="password" class="formRegistrazione" name="password">
+        <button type="button" name="conferma" onclick="ConfermaModulo()">Invia</button>
+      </div>
+      <div id="confermaModulo" style="display:none;" >
+        <h5>Nome:</h5><p name="riepilogoTextForm"> </p>       
+        <h5>Cognome:</h5><p name="riepilogoTextForm"> </p>
+        <h5>Sesso:</h5><p name="riepilogoRadioForm"> </p>
+        <h5>Nazionalit&agrave:</h5><p name="riepilogoTextForm"> </p>
+        <h5>Patente:</h5><p name="riepilogoCheckboxForm"> </p>
+        <h5>Email:</h5><p name="riepilogoTextForm"> </p>
+        <input type="submit" value="conferma" name="confButton">
+      </form>
     </div>
   </body>
 </html>
